@@ -60,4 +60,30 @@ public class Controller {
     public void removeAllUsers() {
         service.removeAll();
     }
+
+
+    @GetMapping(value = "/users", params = {"name"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getName(@RequestParam(value = "name") String name) {
+        return service.getName(name);
+    }
+
+    @GetMapping(value = "/users", params = {"country"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getCountry(@RequestParam(value = "country") String country) {
+        return service.getCountry(country);
+    }
+
+    @GetMapping(value = "/users", params = {"allname"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getAllName(@RequestParam (value = "name") String name){
+        return service.getAllName(name);
+    }
+
+    @GetMapping(value = "/users", params = {"phone"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getNameByPhone(@RequestParam (value = "phone") Integer phone) {
+        return service.getNameByPhone(phone);
+    }
+
 }
