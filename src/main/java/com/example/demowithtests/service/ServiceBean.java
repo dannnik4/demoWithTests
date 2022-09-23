@@ -82,8 +82,20 @@ public class ServiceBean implements Service {
     }
 
     @Override
-    public List<Employee> getNameByPhone(Integer phone) {
+    public List<Employee> getNameByPhone(String phone) {
         return repository.getEmployeeByPhone(phone);
+    }
+
+    @Override
+    public Employee updateByPhone(String phone, Employee employee) {
+        return null;
+    }
+
+    @Override
+    public List<Employee> getEmployeeByPhoneU(String phone) {
+        List<Employee> employees = repository.getEmployeeByPhoneU(phone);
+        employees.stream().forEach(e -> System.err.println(e.getName() + " Доброго вечора,ми з Украины"));
+        return employees;
     }
 
 }
