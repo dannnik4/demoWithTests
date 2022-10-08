@@ -15,7 +15,11 @@ public class EmployeeReadDto {
     @Schema(description = "Name of an employee.", example = "Billy", required = true)
     public String name;
 
+    @NotNull
     public String country;
+
+    @NotNull
+    public String address;
 
     @Email
     @NotNull

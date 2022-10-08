@@ -1,5 +1,4 @@
 package com.example.demowithtests.dto;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.Email;
@@ -9,7 +8,6 @@ import java.time.Instant;
 import java.util.Date;
 
 public class EmployeeUpdateDto {
-//при переезде изменение адреса и имейла
 
     @NotNull(message = "Name may not be null")
     @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long")

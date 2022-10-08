@@ -1,17 +1,17 @@
 package com.example.demowithtests.repository;
 
 import com.example.demowithtests.domain.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
 //@Component
 public interface Repository extends JpaRepository<Employee, Integer> {
-
-    Employee findByName(String name);
 
     @Query("SELECT e FROM Employee e WHERE e.name = ?1")
     List<Employee> getEmployeeByName(String name);
@@ -23,9 +23,14 @@ public interface Repository extends JpaRepository<Employee, Integer> {
     List<Employee> getAllByName(String name);
 
     @Query("SELECT e FROM Employee e WHERE e.phone = ?1")
-    List<Employee> getEmployeeByPhone (String phone);
+    List<Employee> getEmployeeByPhone(String phone);
 
     @Query(value = "SELECT * FROM Users WHERE phone LIKE ?%", nativeQuery = true)
     List<Employee> getEmployeeByPhoneU(String phone);
 
+    Page<Employee> findByName(String name, Pageable pageable);
+
+    Page<Employee> findByAddress(String address, Pageable pageable);
+
+    Page<Employee> findAll(Pageable pageable);
 }

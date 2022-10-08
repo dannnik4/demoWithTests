@@ -6,9 +6,17 @@ import com.example.demowithtests.util.exeption.ResourceNotFoundException;
 import com.example.demowithtests.util.exeption.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -97,5 +105,79 @@ public class ServiceBean implements Service {
         employees.stream().forEach(e -> System.err.println(e.getName() + " Доброго вечора,ми з Украины"));
         return employees;
     }
+
+    @Override
+    public Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        return repository.findByName(name, pageable);
+    }
+
+
+    @Override
+    public Page<Employee> findByAddress(String address, int page, int size, List<String> sortList, String sortOrder) {
+        // create Pageable object using the page, size and sort details
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        // fetch the page object by additionally passing pageable with the filters
+        return repository.findByAddress(address, pageable);
+    }
+
+    @Override
+    public Page<Employee> findAll(int page, int size, List<String> sortList, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(createSortOrder(sortList, sortOrder)));
+        return repository.findAll(pageable);
+    }
+
+
+    private List<Sort.Order> createSortOrder(List<String> sortList, String sortDirection) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        Sort.Direction direction;
+        for (String sort : sortList) {
+            if (sortDirection != null) {
+                direction = Sort.Direction.fromString(sortDirection);
+            } else {
+                direction = Sort.Direction.DESC;
+            }
+            sorts.add(new Sort.Order(direction, sort));
+        }
+        return sorts;
+    }
+
+    @Override
+    public List<String> findDifferentCountries() {
+        List<Employee> allEmployee = repository.findAll();
+        return allEmployee.stream()
+                .map(n -> n.getCountry())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllPhone() {
+        List<Employee> usersPhones = repository.findAll();
+        return usersPhones.stream()
+                .map(p -> p.getPhone())
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findShortNames() {
+        List<Employee> shortNames = repository.findAll();
+        return shortNames.stream()
+                .map(n -> n.getName())
+                .filter(n -> n.length() == 3)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findPhoneAndName() {
+        List<Employee> nameAndPhone = repository.findAll();
+        return nameAndPhone.stream()
+                .map(n -> "name-" + n.getName() + " (phone: " + n.getPhone() + ")")
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
 
 }

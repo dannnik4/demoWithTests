@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -28,5 +29,20 @@ public interface Service {
 
     Employee updateByPhone(String phone, Employee employee);
 
-    List<Employee>getEmployeeByPhoneU(String phone);
+    List<Employee> getEmployeeByPhoneU(String phone);
+
+    Page<Employee> findByName(String name, int page, int size, List<String> sortList, String sortOrder);
+
+    Page<Employee> findByAddress(String address, int page, int size, List<String> sortList, String sortOrder);
+
+    Page<Employee> findAll(int page, int size, List<String> sortList, String sortOrder);
+
+    List<String> findDifferentCountries();
+
+    List<String> findAllPhone();
+
+    List<String> findShortNames();
+
+    List<String> findPhoneAndName();
+
 }
