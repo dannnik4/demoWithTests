@@ -113,6 +113,7 @@
             <version>1.5.4</version>
             <scope>compile</scope>
         </dependency>
+
         <!-- swagger -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -133,9 +134,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.11</version>
         </dependency>
-
     </dependencies>
-
 
     <build>
         <plugins>
