@@ -13,8 +13,15 @@ spring:
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
-    generate-ddl: true
+    #    open-in-view: false
+    #    generate-ddl: true
+
+    flyway:
+      #    locations: filesystem:.\src\main\resources\db\migration
+      enabled: true
+      #    clean-disabled: true
+      baseline-on-migrate: true
+
 # Server configuration
 server:
   port: 8087 #set your port
